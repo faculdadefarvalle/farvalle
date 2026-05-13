@@ -1,0 +1,216 @@
+{
+  "format": "custom",
+  "id": "site_settings",
+  "label": "Configurações do Site",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Header": {
+      "logo": {
+        "type": "Image",
+        "config": {
+          "label": "Logo do header",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "logo_icon": {
+        "type": "Image",
+        "config": {
+          "label": "Logo ícone/mobile",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "navigation": {
+        "type": "Group",
+        "config": {
+          "label": "Itens do menu",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Texto do item",
+                "placeholder": "Ex: A FARVALLE"
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "placeholder": "Página, documento ou URL",
+                "select": null,
+                "allowText": false,
+                "repeat": false
+              }
+            },
+            "parent_label": {
+              "type": "Text",
+              "config": {
+                "label": "Menu pai",
+                "placeholder": "Preencha com o texto do item pai para virar submenu"
+              }
+            },
+            "variant": {
+              "type": "Select",
+              "config": {
+                "label": "Estilo",
+                "options": [
+                  "link",
+                  "portal",
+                  "primary"
+                ],
+                "default_value": "link"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Footer": {
+      "footer_logo": {
+        "type": "Image",
+        "config": {
+          "label": "Logo do footer",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "footer_description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Descrição do footer",
+          "placeholder": "Texto institucional curto",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "address": {
+        "type": "Text",
+        "config": {
+          "label": "Endereço",
+          "placeholder": "Endereço completo"
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "E-mail",
+          "placeholder": "contato@farvalle.com.br"
+        }
+      },
+      "phone": {
+        "type": "Text",
+        "config": {
+          "label": "Telefone",
+          "placeholder": "+55 75 98870-8022"
+        }
+      },
+      "footer_links": {
+        "type": "Group",
+        "config": {
+          "label": "Links do footer",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Texto",
+                "placeholder": "Ex: Portal do Aluno"
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "placeholder": "Página, documento ou URL",
+                "select": null,
+                "allowText": false,
+                "repeat": false
+              }
+            }
+          }
+        }
+      },
+      "social_links": {
+        "type": "Group",
+        "config": {
+          "label": "Redes sociais",
+          "repeat": true,
+          "fields": {
+            "platform": {
+              "type": "Select",
+              "config": {
+                "label": "Rede",
+                "options": [
+                  "whatsapp",
+                  "instagram",
+                  "facebook",
+                  "youtube"
+                ]
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "placeholder": "URL da rede",
+                "select": "web",
+                "allowText": false,
+                "repeat": false
+              }
+            }
+          }
+        }
+      },
+      "emec_text": {
+        "type": "Text",
+        "config": {
+          "label": "Texto e-MEC",
+          "placeholder": "Consulte o cadastro..."
+        }
+      },
+      "emec_logo": {
+        "type": "Image",
+        "config": {
+          "label": "Logo e-MEC",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "emec_qr_code": {
+        "type": "Image",
+        "config": {
+          "label": "QR Code e-MEC",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "emec_link": {
+        "type": "Link",
+        "config": {
+          "label": "Link e-MEC",
+          "placeholder": "URL de consulta",
+          "select": "web",
+          "allowText": false,
+          "repeat": false
+        }
+      },
+      "copyright": {
+        "type": "Text",
+        "config": {
+          "label": "Copyright",
+          "placeholder": "Faculdade Farvalle © 2025 - Todos os direitos reservados."
+        }
+      },
+      "developer_text": {
+        "type": "Text",
+        "config": {
+          "label": "Texto do desenvolvedor",
+          "placeholder": "Desenvolvido por:"
+        }
+      }
+    }
+  }
+}

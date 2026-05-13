@@ -1,75 +1,113 @@
-import styles from './style.module.scss'
-import logo from '../../../../public/farvalle-logo-white.png'
-import eMec from '../../../../public/e-mec.webp'
-import qrCode from '../../../../public/qr-code-farvalle.svg'
-import Image from 'next/image'
-import Link from 'next/link'
-import { IoLogoWhatsapp } from 'react-icons/io'
-import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
+import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
+import { PrismicRichText } from "@prismicio/react";
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io";
+import logo from "../../../../public/farvalle-logo-white.png";
+import eMec from "../../../../public/e-mec.webp";
+import qrCode from "../../../../public/qr-code-farvalle.svg";
+import { getSiteSettings, SocialLink } from "../../lib/prismic-content";
+import styles from "./style.module.scss";
 
-export function FooterTwo(){
-    return (
-        <>
-        <div className={styles.container}>
-            <div className={styles.farvalleContainer}>
-                <Link href={"/"}>
-                <Image src={logo} className={styles.logo} alt='Logo Farvalle' width={150}/>
-                </Link>
-                <span>Situada em Amargosa, destaca-se como uma instituição de ensino superior comprometida com a excelência acadêmica e a formação de profissionais qualificados. Com cursos nas áreas de enfermagem, fisioterapia e pedagogia, a faculdade alia teoria e prática em sua metodologia de ensino.</span>
-            </div>
-            <div className={styles.addressContainer}>
-                <strong>Endereço</strong>
-                <span>Avenida Dr. Luís Sande, 147, Santa Rita, Valle Shopping - Amargosa/BA</span>
-                <div>
-                    <span className={styles.email}>{process.env.NEXT_PUBLIC_FARVALLE_MAIL}</span>
-                </div>
-                <strong>+55 75 98870-8022</strong>
-            </div>
-            <div className={styles.linksContainer}>
-                <strong>Links</strong>
-                <div className={styles.links}>
-                    <Link href={"/"}>Inicio</Link>
-                    <Link href={"https://educacional.usecerbrum.net/inicio.aspx"} target='_blank'>Portal do Aluno</Link>
-                    <Link href={"/publicacoes-institucionais"}>Calendário Acadêmico</Link>
-                    <Link href={"/contato"}>Contato</Link>
-                    <Link href={"/matricular"}>Inscreva-se</Link>
-                </div>
-            </div>
-            <div className={styles.socialContainer}>
-                <strong>Redes Sociais</strong>
-                <div className={styles.iconsContainer}>
-                <Link href={"https://api.whatsapp.com/send/?phone=5575988708022&text&type=phone_number&app_absent=0"} target='_blank' className={styles.iconCircle}>
-                    <IoLogoWhatsapp size={24} color='#a15f40'/>
-                </Link>
-                <Link href={"https://www.instagram.com/farvalle/"} target='_blank' className={styles.iconCircle}>
-                    <FaInstagram size={24} color='#a15f40'/>
-                </Link>
-                <Link href={"/"} target='_blank' className={styles.iconCircle}>
-                    <FaFacebook size={24} color='#a15f40'/>
-                </Link>
-                <Link href={"/"} target='_blank' className={styles.iconCircle}>
-                    <FaYoutube size={24} color='#a15f40'/>
-                </Link>
-                </div>
-                <div className={styles.cadastroInstitucional}>
-                    <div className={styles.eMec}>
-                        <strong>Consulte o cadastro da instituição no sistema e-MEC</strong>
-                        <Image src={eMec} width={150} alt='e-MEC logo'/>
-                    </div>
-                    <Link className={styles.qrContainer} href={"https://emec.mec.gov.br/emec/consulta-cadastro/detalhes-ies/d96957f455f6405d14c6542552b0f6eb/MjU0Mzk="} target='_blank'>
-                        <Image src={qrCode} width={100} alt='qrCode e-MEC'/>
-                    </Link>
-                    
-                </div>
-            </div>
+const socialIcons = {
+  whatsapp: IoLogoWhatsapp,
+  instagram: FaInstagram,
+  facebook: FaFacebook,
+  youtube: FaYoutube,
+};
+
+const renderSocialIcon = (social: SocialLink) => {
+  const Icon = socialIcons[social.platform];
+  return <Icon size={24} color="#a15f40" />;
+};
+
+export async function FooterTwo() {
+  const settings = await getSiteSettings();
+  const footer = settings.footer;
+  const logoSource: string | StaticImageData = footer.logo?.url || logo;
+  const emecLogoSource: string | StaticImageData = footer.emecLogo?.url || eMec;
+  const emecQrSource: string | StaticImageData = footer.emecQrCode?.url || qrCode;
+
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.farvalleContainer}>
+          <Link href="/">
+            <Image
+              src={logoSource}
+              className={styles.logo}
+              alt={footer.logo?.alt || "Logo Farvalle"}
+              width={footer.logo?.width || 150}
+              height={footer.logo?.height || 80}
+            />
+          </Link>
+          <PrismicRichText
+            field={footer.description}
+            components={{
+              paragraph: ({ children }) => <span>{children}</span>,
+            }}
+          />
         </div>
-        <div className={styles.bottomContainer}>
-            <span>Faculdade Farvalle © 2025 - Todos os direitos reservados.</span>
-            <div className={styles.developer}>
-                <span>Desenvolvido por:</span>
-            </div>
+        <div className={styles.addressContainer}>
+          <strong>Endereço</strong>
+          <span>{footer.address}</span>
+          <div>
+            <span className={styles.email}>{footer.email}</span>
+          </div>
+          <strong>{footer.phone}</strong>
         </div>
-        </>
-        
-    )
+        <div className={styles.linksContainer}>
+          <strong>Links</strong>
+          <div className={styles.links}>
+            {footer.links.map((link) => (
+              <Link href={link.href} target={link.target} key={link.label}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className={styles.socialContainer}>
+          <strong>Redes Sociais</strong>
+          <div className={styles.iconsContainer}>
+            {footer.socialLinks.map((social) => (
+              <Link
+                href={social.href}
+                target={social.target}
+                className={styles.iconCircle}
+                key={social.platform}
+                aria-label={social.platform}
+              >
+                {renderSocialIcon(social)}
+              </Link>
+            ))}
+          </div>
+          <div className={styles.cadastroInstitucional}>
+            <div className={styles.eMec}>
+              <strong>{footer.emecText}</strong>
+              <Image
+                src={emecLogoSource}
+                width={footer.emecLogo?.width || 150}
+                height={footer.emecLogo?.height || 75}
+                alt={footer.emecLogo?.alt || "e-MEC logo"}
+              />
+            </div>
+            <Link className={styles.qrContainer} href={footer.emecLink} target="_blank">
+              <Image
+                src={emecQrSource}
+                width={footer.emecQrCode?.width || 100}
+                height={footer.emecQrCode?.height || 100}
+                alt={footer.emecQrCode?.alt || "QR Code e-MEC"}
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className={styles.bottomContainer}>
+        <span>{footer.copyright}</span>
+        <div className={styles.developer}>
+          <span>{footer.developerText}</span>
+        </div>
+      </div>
+    </>
+  );
 }

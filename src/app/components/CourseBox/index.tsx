@@ -7,10 +7,11 @@ interface CouseBoxProps{
     modality: string,
     total_semestre: string,
     image_url: string,
+    image_alt?: string,
     url: string
 }
 
-export function CourseBox({course, modality, total_semestre, image_url, url}: CouseBoxProps){
+export function CourseBox({course, modality, total_semestre, image_url, image_alt, url}: CouseBoxProps){
     return (
         <div className={styles.courseBox}>
                         <div className={styles.flexBoxContainer}>
@@ -23,7 +24,7 @@ export function CourseBox({course, modality, total_semestre, image_url, url}: Co
                                 </div>
                                 <span>{total_semestre} semestres</span>
                             </div>
-                            <Image className={styles.courseImage} src={image_url} alt="" width={120} height={120}/>
+                            <Image className={styles.courseImage} src={image_url} alt={image_alt || course} width={120} height={120}/>
                         </div>
                         <Link href={url} className={styles.buttonMore}>SAIBA MAIS</Link>
                     </div>

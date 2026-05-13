@@ -1,0 +1,108 @@
+{
+  "format": "page",
+  "id": "homepage",
+  "label": "Página Inicial",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "banner": {
+        "type": "Image",
+        "config": {
+          "label": "Banner principal",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "intro_sections": {
+        "type": "Group",
+        "config": {
+          "label": "Blocos de texto",
+          "repeat": true,
+          "fields": {
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "Título",
+                "placeholder": "Título do bloco"
+              }
+            },
+            "content": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Conteúdo",
+                "placeholder": "Texto do bloco",
+                "allowTargetBlank": true,
+                "multi": "paragraph,strong,em,hyperlink"
+              }
+            }
+          }
+        }
+      },
+      "building_image": {
+        "type": "Image",
+        "config": {
+          "label": "Imagem institucional",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "featured_courses": {
+        "type": "Group",
+        "config": {
+          "label": "Cursos em destaque",
+          "repeat": true,
+          "fields": {
+            "course": {
+              "type": "Link",
+              "config": {
+                "label": "Curso",
+                "placeholder": "Selecione um documento de curso",
+                "select": "document",
+                "customtypes": [
+                  "courses"
+                ],
+                "allowText": false,
+                "repeat": false
+              }
+            }
+          }
+        }
+      },
+      "latest_posts_title": {
+        "type": "Text",
+        "config": {
+          "label": "Título das últimas novidades",
+          "placeholder": "Últimas Novidades"
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "Título usado em busca e redes sociais"
+        },
+        "type": "Text"
+      },
+      "meta_description": {
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "Resumo da página"
+        },
+        "type": "Text"
+      },
+      "meta_image": {
+        "config": {
+          "constraint": {
+            "height": 1260,
+            "width": 2400
+          },
+          "label": "Meta Image",
+          "thumbnails": []
+        },
+        "type": "Image"
+      }
+    }
+  }
+}

@@ -9,11 +9,10 @@ import { HiOutlineMenu } from "react-icons/hi";
 import logo from "../../../../public/farvalle-logo.png";
 import logoIcon from "../../../../public/farvalle-icon.png";
 import { NavigationItem } from "../../lib/prismic-content";
+import { HeaderMobile } from "../HeaderMobile";
 import styles from "./style.module.scss";
 
-interface HeaderMobileProps {
-  showMenu: boolean;
-  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
+type HeaderClientProps = {
   navigation: NavigationItem[];
   logo?: {
     url: string;
@@ -27,16 +26,11 @@ interface HeaderMobileProps {
     width: number;
     height: number;
   };
-}
+};
 
-export function HeaderMobile({
-  showMenu,
-  setShowMenu,
-  navigation,
-  logo: prismicLogo,
-  logoIcon: prismicLogoIcon,
-}: HeaderMobileProps) {
+export function HeaderClient({ navigation, logo: prismicLogo, logoIcon: prismicLogoIcon }: HeaderClientProps) {
   const [toggle, setToggle] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
 
   function handleDropDownMenuClick(id: string) {
@@ -46,7 +40,6 @@ export function HeaderMobile({
   function handleDropDownItemClick(route: string) {
     router.push(route);
     setToggle("");
-    setShowMenu(false);
   }
 
   const portalItems = navigation.filter((item) => item.variant === "portal");
@@ -56,40 +49,34 @@ export function HeaderMobile({
   const logoIconSource: string | StaticImageData =
     prismicLogoIcon?.url || logoIcon;
 
-  return showMenu === true ? (
+  return showMenu === false ? (
     <nav className={styles.nav}>
       <div className={styles.container}>
-        <div className={styles.toggleContainer}>
-          <button
-            className={styles.toggleMenu}
-            onClick={() => setShowMenu(!showMenu)}
-            aria-label="Fechar menu"
-          >
-            <HiOutlineMenu size={32} />
-          </button>
-          <Link
-            href="/"
-            className={styles.logoContainer}
-            onClick={() => setShowMenu(false)}
-          >
-            <Image
-              className={styles.logo}
-              src={logoSource}
-              alt={prismicLogo?.alt || "Farvalle Logo"}
-              width={prismicLogo?.width || 200}
-              height={prismicLogo?.height || 80}
-              priority
-            />
-            <Image
-              className={styles.logoIcon}
-              src={logoIconSource}
-              alt={prismicLogoIcon?.alt || "Farvalle Logo"}
-              width={prismicLogoIcon?.width || 80}
-              height={prismicLogoIcon?.height || 80}
-              priority
-            />
-          </Link>
-        </div>
+        <button
+          className={styles.toggleMenu}
+          onClick={() => setShowMenu(!showMenu)}
+          aria-label="Abrir menu"
+        >
+          <HiOutlineMenu size={32} />
+        </button>
+        <Link href="/" className={styles.logoContainer}>
+          <Image
+            className={styles.logo}
+            src={logoSource}
+            alt={prismicLogo?.alt || "Farvalle Logo"}
+            width={prismicLogo?.width || 200}
+            height={prismicLogo?.height || 80}
+            priority
+          />
+          <Image
+            className={styles.logoIcon}
+            src={logoIconSource}
+            alt={prismicLogoIcon?.alt || "Farvalle Logo"}
+            width={prismicLogoIcon?.width || 80}
+            height={prismicLogoIcon?.height || 80}
+            priority
+          />
+        </Link>
         <ul className={`${styles.ul} dropdown-menu`} id="navbarNavDropdown">
           {regularItems.map((item) => (
             <li className={`${styles.menuLink} nav-item`} key={item.id}>
@@ -116,12 +103,7 @@ export function HeaderMobile({
                   </ul>
                 </button>
               ) : (
-                <Link
-                  onClick={() => setShowMenu(false)}
-                  className={styles.link}
-                  href={item.href}
-                  target={item.target}
-                >
+                <Link className={styles.link} href={item.href} target={item.target}>
                   {item.label}
                 </Link>
               )}
@@ -135,7 +117,6 @@ export function HeaderMobile({
           {portalItems.map((item) => (
             <li className={`${styles.menuLink} nav-item`} key={item.id}>
               <Link
-                onClick={() => setShowMenu(false)}
                 className={styles.linkSystem}
                 target={item.target}
                 href={item.href}
@@ -148,7 +129,6 @@ export function HeaderMobile({
           {primaryItems.map((item) => (
             <li className={`${styles.menuLink} nav-item`} key={item.id}>
               <Link
-                onClick={() => setShowMenu(false)}
                 className={styles.linkSignUp}
                 href={item.href}
                 target={item.target}
@@ -161,6 +141,12 @@ export function HeaderMobile({
       </div>
     </nav>
   ) : (
-    <></>
+    <HeaderMobile
+      showMenu={showMenu}
+      setShowMenu={setShowMenu}
+      navigation={navigation}
+      logo={prismicLogo}
+      logoIcon={prismicLogoIcon}
+    />
   );
 }

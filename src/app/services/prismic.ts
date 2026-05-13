@@ -1,26 +1,37 @@
-// import * as prismic from '@prismicio/client'
+import * as prismic from "@prismicio/client";
+import * as prismicNext from "@prismicio/next";
+import config from "../../../slicemachine.config.json";
 
-//   export const getClient = () => {
-//     const client = prismic.createClient('bolsafacil-ba', {
-//         accessToken: process.env.PRISMIC_ACCESS_TOKEN
-//     })
-//     return client
-// }
+export const repositoryName =
+  process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || config.repositoryName;
 
-import * as prismic from '@prismicio/client'
-import * as prismicNext from '@prismicio/next'
+const routes: prismic.ClientConfig["routes"] = [
+  {
+    type: "courses",
+    path: "/cursos/:uid",
+  },
+  {
+    type: "posts",
+    path: "/posts/:uid",
+  },
+  {
+    type: "arquivos",
+    path: "/publicacoes-institucionais",
+  },
+];
 
-export const getClient = (config = {}) => {
-  const client = prismic.createClient('faculdade-farvalle', {
-   accessToken: process.env.PRISMIC_ACCESS_TOKEN,
-   fetchOptions:
-     process.env.NODE_ENV === 'production'
-       ? { next: { tags: ['prismic'] }, cache: 'force-cache' }
-       : { next: { revalidate: 5 } },
-      ...config,
+export const getClient = (config: prismic.ClientConfig = {}) => {
+  const client = prismic.createClient(repositoryName, {
+    routes,
+    accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+    fetchOptions:
+      process.env.NODE_ENV === "production"
+        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
+        : { next: { revalidate: 5 } },
+    ...config,
   });
 
-  prismicNext.enableAutoPreviews({ client })
+  prismicNext.enableAutoPreviews({ client });
 
-  return client
-}
+  return client;
+};
