@@ -1,13 +1,14 @@
 
-import { prisma } from '../../services/prisma'
+import { supabase } from "../../services/supabase";
 
 export async function POST(req: Request){
 
     const {nome, city, conheceu, course, email, ingresso, tel} = await req.json()
 
     try{
-        const novoinscrito = await prisma.inscricao.create({
-            data: {
+        const { error } = await supabase
+            .from("inscricoes")
+            .insert({
                 nome: nome,
                 cidade: city,
                 conheceu: conheceu,
@@ -15,10 +16,13 @@ export async function POST(req: Request){
                 email: email,
                 ingresso: ingresso,
                 telefone: tel
-            }
-        })
+            });
+
+        if (error) {
+            throw error;
+        }
     
-        return Response.json(novoinscrito, {status: 200})
+        return Response.json({success: true}, {status: 200})
     } catch(e){
         return Response.json({error: e}, {status: 400})
     }

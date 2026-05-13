@@ -1,6 +1,6 @@
 import { mailOptions, transporter } from '../../services/nodemailer' 
 import juice from "juice";
-import "react-quill/dist/quill.snow.css"
+import "react-quill-new/dist/quill.snow.css"
 
 export async function POST(request: Request) {
 

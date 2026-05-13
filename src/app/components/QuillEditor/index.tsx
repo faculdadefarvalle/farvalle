@@ -1,7 +1,7 @@
 'use client'
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import "react-quill/dist/quill.snow.css"; // Estilos do Quill
+import "react-quill-new/dist/quill.snow.css"; // Estilos do Quill
 
 // Importação dinâmica para evitar problemas no SSR (erro de não conseguir encontrar o document.)
 
