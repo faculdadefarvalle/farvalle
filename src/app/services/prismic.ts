@@ -19,8 +19,8 @@ const routes: prismic.ClientConfig["routes"] = [
     path: "/publicacoes-institucionais",
   },
   {
-    type: "",
-    path: "/"
+    type: "homepage",
+    path: "/",
   }
 ];
 
