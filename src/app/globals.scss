@@ -1,5 +1,5 @@
 :root {
-  --white: #fff
+  --white: #fff;
   --background: #ffffff;
   --foreground: #171717;
   --farvalle-green: #3f4c41;
@@ -10,7 +10,7 @@
   --farvalle-color-disabled: #969696;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -47,8 +47,8 @@ a {
   min-height: 200px;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 }

@@ -26,6 +26,7 @@ const routes: prismic.ClientConfig["routes"] = [
     type: "arquivos",
     path: "/publicacoes-institucionais",
   },
+
 ];
 
 /**
