@@ -18,6 +18,10 @@ const routes: prismic.ClientConfig["routes"] = [
     type: "arquivos",
     path: "/publicacoes-institucionais",
   },
+  {
+    type: "",
+    path: "/"
+  }
 ];
 
 export const getClient = (config: prismic.ClientConfig = {}) => {
