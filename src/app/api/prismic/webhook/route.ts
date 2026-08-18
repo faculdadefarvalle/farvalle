@@ -1,14 +1,32 @@
 import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 
-export async function GET(req: Request) {
-  // Verifica o token de segurança enviado pelo webhook do Prismic
-  const secret = req.headers.get("x-prismic-secret");
-  if (secret !== process.env.PRISMIC_ACCESS_TOKEN) {
-    return NextResponse.json({ error: "Acesso negado, o token não foi passado ou está incorreto." }, { status: 401 });
+type PrismicWebhookBody = {
+  secret?: string;
+};
+
+export async function POST(req: Request) {
+  let body: PrismicWebhookBody;
+
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Corpo da requisição inválido." },
+      { status: 400 },
+    );
   }
 
-  // Revalida todas as páginas associadas à tag "prismic"
+  const webhookSecret =
+    process.env.PRISMIC_WEBHOOK_SECRET || process.env.PRISMIC_ACCESS_TOKEN;
+
+  if (!webhookSecret || body.secret !== webhookSecret) {
+    return NextResponse.json(
+      { error: "Acesso negado, o segredo do webhook está incorreto." },
+      { status: 401 },
+    );
+  }
+
   revalidateTag("prismic");
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
