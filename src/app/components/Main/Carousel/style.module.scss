@@ -1,29 +1,10 @@
 .carouselItem{
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
     width: 100%;
-    height: 500px;
     .carouselImage{
+        display: block;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-}
-
-@media(max-width: 1045px){
-    .carouselItem{
-        height: 300px;
-    }
-}
-@media(max-width: 677px){
-    .carouselItem{
-        height: 200px;
-    }
-}
-
-@media(max-width: 445px){
-    .carouselItem{
-        height: 150px;
+        height: auto;
+        object-fit: contain;
     }
 }

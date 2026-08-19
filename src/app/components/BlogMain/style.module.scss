@@ -6,9 +6,17 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    align-items: center;
+    h1{
+        width: 100%;
+        text-align: center;
+    }
     .postsContainer{
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 1rem;
+        width: 100%;
     }
     
 }
@@ -17,6 +25,7 @@
     .container{
         .postsContainer{
             flex-direction: column;
+            align-items: center;
         }
     }
 }

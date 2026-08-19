@@ -37,8 +37,8 @@ export async function FooterTwo() {
               src={logoSource}
               className={styles.logo}
               alt={footer.logo?.alt || "Logo Farvalle"}
-              width={footer.logo?.width || 150}
-              height={footer.logo?.height || 80}
+              width={ 150}
+              height={80}
             />
           </Link>
           <PrismicRichText
@@ -86,16 +86,16 @@ export async function FooterTwo() {
               <strong>{footer.emecText}</strong>
               <Image
                 src={emecLogoSource}
-                width={footer.emecLogo?.width || 150}
-                height={footer.emecLogo?.height || 75}
+                width={150}
+                height={50}
                 alt={footer.emecLogo?.alt || "e-MEC logo"}
               />
             </div>
             <Link className={styles.qrContainer} href={footer.emecLink} target="_blank">
               <Image
                 src={emecQrSource}
-                width={footer.emecQrCode?.width || 100}
-                height={footer.emecQrCode?.height || 100}
+                width={100}
+                height={100}
                 alt={footer.emecQrCode?.alt || "QR Code e-MEC"}
               />
             </Link>

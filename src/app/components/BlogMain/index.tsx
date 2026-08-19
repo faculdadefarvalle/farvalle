@@ -9,8 +9,8 @@ type BlogMainProps = {
 export async function BlogMain({ title = "Últimas Novidades" }: BlogMainProps) {
   const client = getClient();
   const response = await client.getAllByType("posts", {
-    pageSize: 1,
-    limit: 4,
+    pageSize: 5,
+    limit: 5,
     orderings: {
       field: "document.first_publication_date",
       direction: "desc",
