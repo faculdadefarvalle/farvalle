@@ -7,7 +7,7 @@
         margin: 0 auto;
         gap: 4rem;
         margin-top: 3rem;
-        justify-content: space-between;
+        justify-content: space-evenly;
         .paragraphContainer{
             font-family: var(--font-montserrat);
             width: 400px;
@@ -97,7 +97,7 @@
     }
 }
 
-@media(max-width: 762px){
+@media(max-width: 1390px){
     .container{
         .textContainer{
             flex-direction: column;
@@ -114,7 +114,13 @@
                 object-fit: cover;
             }
         }
-        .coursesContainer{
+        
+    }
+}
+
+@media(max-width: 987px){ 
+    .container{
+.coursesContainer{
             height: 100%;
             padding: 1rem;
             .courseBoxContainer{
@@ -125,5 +131,5 @@
             }
         }
     }
-}
 
+}
