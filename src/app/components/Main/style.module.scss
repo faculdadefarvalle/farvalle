@@ -2,7 +2,7 @@
     width: 100%;
     .textContainer {
         
-        width: 80%;
+        width: 70%;
         display: flex;
         margin: 0 auto;
         gap: 4rem;
@@ -132,4 +132,13 @@
         }
     }
 
+}
+
+@media(min-width: 1579px){
+    .container{
+        .textContainer{
+            gap: 0rem;
+        
+    }
+}
 }
