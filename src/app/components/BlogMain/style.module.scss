@@ -52,3 +52,11 @@
         width: 90%;
     }
 }
+
+@media(min-width: 1855px){
+    .container{
+        .postsContainer{
+            justify-content: center;
+        }
+    }
+}
