@@ -21,7 +21,12 @@ export async function BlogMain({ title = "Últimas Novidades" }: BlogMainProps) 
   return (
     <div className={styles.container}>
       <h1>{title}</h1>
-      <div className={styles.postsContainer}>
+      <div
+        className={styles.postsContainer}
+        role="region"
+        aria-label="Lista de últimas novidades"
+        tabIndex={0}
+      >
         {posts &&
           posts?.map((index) => {
             return (

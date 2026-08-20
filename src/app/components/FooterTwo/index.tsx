@@ -31,7 +31,7 @@ export async function FooterTwo() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.farvalleContainer}>
+        {/* <div className={styles.farvalleContainer}>
           <Link href="/">
             <Image
               src={logoSource}
@@ -47,8 +47,15 @@ export async function FooterTwo() {
               paragraph: ({ children }) => <span>{children}</span>,
             }}
           />
-        </div>
+        </div> */}
         <div className={styles.addressContainer}>
+          <Image
+              src={logoSource}
+              className={styles.logo}
+              alt={footer.logo?.alt || "Logo Farvalle"}
+              width={ 150}
+              height={24}
+            />
           <strong>Endereço</strong>
           <span>{footer.address}</span>
           <div>

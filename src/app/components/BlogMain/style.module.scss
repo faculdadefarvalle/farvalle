@@ -13,19 +13,42 @@
     }
     .postsContainer{
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
         gap: 1rem;
         width: 100%;
+        padding: 0.25rem 0.25rem 1rem;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-behavior: smooth;
+        scroll-snap-type: inline mandatory;
+        scrollbar-color: var(--farvalle-orange) #e8e8e8;
+        scrollbar-width: thin;
+
+        &:focus-visible{
+            outline: 2px solid var(--farvalle-orange);
+            outline-offset: 4px;
+        }
+
+        &::-webkit-scrollbar{
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track{
+            background: #e8e8e8;
+            border-radius: 999px;
+        }
+
+        &::-webkit-scrollbar-thumb{
+            background: var(--farvalle-orange);
+            border-radius: 999px;
+        }
     }
     
 }
 
 @media(max-width: 1110px){
     .container{
-        .postsContainer{
-            flex-direction: column;
-            align-items: center;
-        }
+        width: 90%;
     }
 }

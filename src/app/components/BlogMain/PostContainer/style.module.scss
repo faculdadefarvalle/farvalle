@@ -2,6 +2,8 @@
     padding: 1rem;
     border: 1px solid #cacaca;
     width: 280px;
+    flex: 0 0 280px;
+    scroll-snap-align: start;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -38,6 +40,7 @@
 
 @media(max-width: 1110px){
     .postContainer{
-        width: 100%;
+        width: min(280px, calc(90vw - 2rem));
+        flex-basis: min(280px, calc(90vw - 2rem));
     }
 }
