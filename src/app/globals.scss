@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --white: #fff;
   --background: #ffffff;
   --foreground: #171717;
@@ -8,13 +9,6 @@
   --farvalle-orange-hover: #b26846;
   --farvalle-background-disabled: #d5d5d5;
   --farvalle-color-disabled: #969696;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 html,
@@ -45,10 +39,4 @@ a {
 
 .ql-editor{
   min-height: 200px;
-}
-
-@media (prefers-color-scheme: light) {
-  html {
-    color-scheme: light;
-  }
 }
