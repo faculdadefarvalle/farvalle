@@ -13,6 +13,7 @@ export async function POST(request: Request) {
     try {
         await transporter.sendMail({
            ...mailOptions,
+           to: 'secad@farvalle.edu.br',
            subject: '🗣️ Nova Inscrição | FARVALLE 🗣️',
            //cc: 'ouvidoria@fazag.edu.br',
            //bcc: 'caroll_moutinho@hotmail.com',
