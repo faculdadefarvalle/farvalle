@@ -1,0 +1,240 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  /* Arte ancorada à direita: se o bloco crescer, só a área creme da esquerda é cortada (o texto nunca cai sobre a foto) */
+  /* Camada extra: degradê creme só na faixa inferior (linha dos botões), para o botão de contorno
+     não ficar sobre a foto — a faixa fica abaixo do rosto, que não é coberto */
+  background: var(--farvalle-sand) url("/images/redesign/hero-bg.jpg") right center / cover no-repeat;
+  /* Telas de alta densidade (e 4K com zoom) recebem a arte em dobro de resolução */
+  background-image: image-set(url("/images/redesign/hero-bg.jpg") 1x, url("/images/redesign/hero-bg@2x.jpg") 2x);
+
+  /* Degradê creme só na faixa inferior (linha dos botões), com a borda de cima esmaecida,
+     para o botão de contorno não ficar sobre a foto — a faixa fica abaixo do rosto */
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 120px;
+    pointer-events: none;
+    background: linear-gradient(90deg, var(--farvalle-sand) 0 34%, rgba(252, 248, 244, 0) 46%);
+    -webkit-mask-image: linear-gradient(to top, #000 0 45%, transparent 100%);
+    mask-image: linear-gradient(to top, #000 0 45%, transparent 100%);
+  }
+  /* Quadro inicial 20% maior que a arte do layout (942 x 274); o bloco cresce se o texto precisar */
+  min-height: max(432px, calc(34.9vw / var(--zoom)));
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-top: 34px;
+  padding-bottom: 34px; /* respiro entre os botões e o fim do hero */
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 33%;
+  padding-left: 0;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.1rem, 3.6vw, 2.88rem);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--farvalle-green);
+
+  em {
+    font-style: normal;
+    color: var(--farvalle-orange);
+  }
+}
+
+.desktopLines {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileLines {
+  display: none;
+}
+
+.text {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 44ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+
+  /* Botões um pouco menores no hero, para o segundo terminar antes da foto */
+  :global(.fv-btn) {
+    padding: 10px 16px;
+    font-size: 0.84rem;
+  }
+}
+
+.mobilePhoto {
+  display: none;
+}
+
+.textShort {
+  display: none;
+}
+
+/* Telas entre 1181 e 1300px: a área creme da arte fica mais estreita; o texto encolhe um pouco para não encostar na foto */
+@media (max-width: 1300px) and (min-width: 1181px) {
+  /* Hero mais baixo → a arte (cover) encolhe e a área creme da esquerda volta a aparecer inteira */
+  .inner {
+    padding-top: 22px;
+  }
+
+  .copy {
+    max-width: 30%;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+  }
+
+  .text {
+    font-size: 0.78rem;
+  }
+
+  .actions :global(.fv-btn) {
+    padding: 8px 12px;
+    font-size: 0.72rem;
+  }
+}
+
+/* Tablet e notebooks estreitos (821–1180px): a foto de fundo cobriria o texto; vira duas colunas com o slideshow ao lado */
+@media (max-width: 1180px) and (min-width: 821px) {
+  .hero {
+    background: var(--farvalle-sand);
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 48%);
+    align-items: center;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .inner {
+    padding-top: 28px;
+    padding-bottom: 28px;
+    padding-right: 24px;
+  }
+
+  .copy {
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: clamp(1.7rem, 3.4vw, 2.2rem);
+  }
+
+  .mobilePhoto {
+    display: block;
+    align-self: center;
+
+    > * {
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+    }
+  }
+}
+
+@media (max-width: 820px) {
+  /* Celular: slideshow logo no início, depois texto curto e o botão Inscreva-se */
+  .hero {
+    background: var(--farvalle-sand);
+    aspect-ratio: auto;
+
+    &::before {
+      display: none;
+    }
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mobilePhoto {
+    display: block;
+    order: -1;
+    padding: 0;
+    width: 100%;
+  }
+
+  .inner {
+    padding-top: 22px;
+    padding-bottom: 28px;
+  }
+
+  .copy {
+    max-width: 100%;
+    padding-left: 0;
+    gap: 10px;
+  }
+
+  /* Título no padrão dos títulos de seção (alinhado à esquerda, quebra natural), com tamanho
+     calculado para caber em DUAS linhas na largura do celular (regra: títulos têm até duas linhas) */
+  .title {
+    display: block;
+    font-size: clamp(1.05rem, 5.05vw, 1.3rem);
+    line-height: 1.15;
+    text-align: left;
+  }
+
+  .desktopLines {
+    display: none;
+  }
+
+  .mobileLines {
+    display: inline;
+
+    > span {
+      display: inline;
+    }
+
+    > span + span::before {
+      content: " ";
+    }
+  }
+
+  .text {
+    display: none;
+  }
+
+  .textShort {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .secondary {
+    display: none;
+  }
+
+  .actions .fv-btn,
+  .actions a {
+    width: 100%;
+  }
+}

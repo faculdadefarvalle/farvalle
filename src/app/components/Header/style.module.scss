@@ -1,364 +1,273 @@
-.nav{
-    height: 80px;
-    background: #d3d3d3;
-    //background: white;
-    width: 100%;
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.scrolled {
+  border-bottom-color: var(--border);
+  box-shadow: 0 6px 20px rgba(31, 42, 36, 0.06);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: var(--header-height);
+  min-width: 0;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: auto;
+  height: 30px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.menuItem {
+  position: relative;
+}
+
+.menuLink {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: color 0.2s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    right: 9px;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--farvalle-orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover,
+  &.active {
+    color: var(--farvalle-green);
+  }
+
+  &.active::after,
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 220px;
+  list-style: none;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+}
+
+.dropdownOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdownLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+
+  &:hover {
+    background: var(--farvalle-cream);
+    color: var(--farvalle-orange);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.portal,
+.primary {
+  padding: 9px 14px;
+  font-size: 0.78rem;
+}
+
+.toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--farvalle-green);
+
+  &:hover {
+    background: var(--farvalle-cream);
+  }
+}
+
+/* ===== Mobile ===== */
+.mobile {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .nav .menu {
+    display: none;
+  }
+
+  .nav .portal {
+    display: none;
+  }
+
+  .nav .actions {
+    margin-left: auto; /* botão do menu encostado à direita */
+  }
+
+  .toggle {
+    display: inline-flex;
+  }
+
+  .mobile {
+    display: block;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    /* Altura explícita: o backdrop-filter do header vira o bloco de contenção do fixed,
+       então bottom: 0 não alcançaria o fim da tela. */
+    height: calc(100vh - var(--header-height));
+    height: calc(100dvh - var(--header-height));
+    background: var(--white);
+    padding: 16px 24px 32px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    visibility: hidden; /* tira os links do fluxo de Tab quando fechado */
+    transition: transform 0.25s ease, visibility 0s linear 0.25s;
+  }
+
+  .mobileOpen {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.25s ease, visibility 0s;
+  }
+
+  .mobileList {
+    list-style: none;
     display: flex;
-    justify-content: center;
-    font-family: var(--font-montserrat);
-    font-weight: 400;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+  }
 
-    .container{
-        width: 80%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .toggleMenu{
-            cursor: pointer;
-            background: none;
-            border: solid 1px var(--farvalle-green);
-            border-radius: 4px;
-            display: none;
-            color: var(--farvalle-green);
-            margin-right: 10px;
-        }
-        .logoContainer{
-            width: 200px;
-            height: 80px;
-            .logo{
-                object-fit: contain;
-                width: 100%;
-                height: 100%;
-            }
-            .logoIcon{
-                display: none;
-                object-fit: contain;
-                width: 100%;
-                height: 100%;
-            }
-        }
-        .ul{
-            list-style: none;
-            display: flex;
-            flex: 1;
-            justify-content: flex-end;
-            gap: 1rem;
-            border: none;
-            background: none;
-            align-items: center;
-            .link{
-                transition: .2s;
-                color: black;
-                font-size: 14px;
-                &:hover{
-                    color: var(--farvalle-orange)
-                }
-            }
-            .linkShow{
-                transition: .2s;
-                color: black;
-                font-size: 14px;
-                &:hover{
-                    color: var(--farvalle-orange)
-                }
-            }
-            .linkSystem{
-                background: white;
-                padding: 8px 24px;
-                border-radius: 50px;
-                transition: .2s;
-                font-size: 14px;
-                display: flex;
-                align-items: center;
-                gap: .3rem;
-                color: #000;
-                &:hover{
-                    background: #ececec;
-                }
-            }
-            .linkSignUp{
-                background: var(--farvalle-green);
-                padding: 12px 24px;
-                border-radius: 50px;
-                color: white;
-                transition: .2s;
-                font-size: 14px;
-                display: flex;
-                &:hover{
-                    background: var(--farvalle-green-hover);
-                }
-            }
-            .dropDownButton{
-                position: relative;
-                font-size: 1rem;
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 14px;
-                &:hover{
-                    color: var(--farvalle-orange);
-                }
-                .dropDownMenu{
-                    position: absolute;
-                    list-style: none;
-                    display: flex;
-                    flex-direction: column;
-                    background: #efefef;
-                    margin-top: 12px;
-                    border-radius: 4px;
-                    font-size: 1rem;
-                    width: 250px;
-                    font-size: 14px;
-                    z-index: 1;
-                    .dropDownItem{
-                        padding: 16px 24px;
-                        cursor: pointer;
-                        display: block;
-                        color: black;
-                        text-align: start;
-                        border-radius: 4px;
-                        &:hover{
-                            background: #e0e0e0;
-                            flex: 1;
-                        }
-                    }
-                }
-                .dropDownMenuOff{
-                    display: none;
-                    position: absolute;
-                    list-style: none;
-                    flex-direction: column;
-                    background: #efefef;
-                    margin-top: 4px;
-                    border-radius: 4px;
-                    font-size: 1rem;
-                    .dropDownItem{
-                        padding: 16px 24px;
-                        cursor: pointer;
-                        display: block;
-                        border-radius: 4px;
-                        &:hover{
-                            background: #e0e0e0;
-                            flex: 1;
-                        }
-                    }
-                }
-            }
-            .dropDownButtonShow{
-                display: flex;
-            }
-            .menuLinkHr{
-                display: flex;
-                flex-direction: column;
-                hr{
-                    height: 30px;
-                    border: solid .3px rgb(162, 162, 162);
-                }
-            }
-        }
+  .mobileLink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 4px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--farvalle-green);
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+
+  .rotate {
+    transform: rotate(180deg);
+  }
+
+  .mobileSub {
+    list-style: none;
+    display: none;
+    padding: 4px 0 8px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mobileSubOpen {
+    display: block;
+  }
+
+  .mobileSubLink {
+    display: block;
+    padding: 10px 4px;
+    color: var(--text);
+    font-weight: 500;
+
+    &:hover {
+      color: var(--farvalle-orange);
     }
+  }
+
+  .mobileActions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+
+    a {
+      justify-content: center;
+    }
+  }
 }
 
-@media(max-width: 1068px){
-    .nav{
-        .container{
-            .ul{
-               .link, .dropDownButton{
-                display: none;
-               }
-            }
-            .toggleMenu{
-                cursor: pointer;
-                background: none;
-                border: solid 1px var(--farvalle-green);
-                border-radius: 4px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: var(--farvalle-green);
-                margin-right: 10px;
-            }
-        }
-    }
-}
+@media (max-width: 560px) {
+  .nav .primary {
+    display: none;
+  }
 
-@media(max-width: 851px){
-    .nav{
-        .container{
-            .ul{
-               .link, .dropDownButton{
-                display: none;
-               }
-               .linkSignUp{
-                padding: 10px 20px;
-                font-size: 12px;
-               }
-               .linkSystem{
-                padding: 10px 20px;
-                font-size: 12px;
-                .icon{
-                    height: 16px;
-                }
-               }
-            }
-            .logoContainer{
-                width: 180px;
-                height: 80px;
-                .logo{
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
-}
-
-@media(max-width: 762px){
-    .nav{
-        .container{
-            .ul{
-               .link, .dropDownButton{
-                display: none;
-               }
-               .linkSignUp{
-                padding: 10px 20px;
-                font-size: 12px;
-               }
-               .linkSystem{
-                padding: 10px 20px;
-                font-size: 12px;
-                .icon{
-                    height: 16px;
-                }
-               }
-               .menuLinkHr{
-                display: none;
-               }
-            }
-            .logoContainer{
-                width: 40px;
-                height: 80px;
-                .logo{
-                    display: none;
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-                .logoIcon{
-                    display: block;
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
-}
-
-@media(max-width: 565px){
-    .nav{
-        .container{
-            width: 100%;
-            padding: 1rem;
-            align-items: center;
-            .ul{
-                gap: 0;
-                justify-content: space-between;
-                align-items: center;
-               .link, .dropDownButton{
-                display: none;
-                
-               }
-               .linkSignUp{
-                padding: 11.5px 18px;
-                font-size: 8px;
-
-               }
-               .linkSystem{
-                padding: 10px 8px;
-                font-size: 8px;
-                gap: 0;
-                .icon{
-                    height: 12px;
-                }
-               }
-               .menuLinkHr{
-                display: none;
-               }
-            }
-            .logoContainer{
-                width: 40px;
-                height: 32px;
-                margin-left: .7rem;
-                .logo{
-                    display: none;
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-                .logoIcon{
-                    display: block;
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
-}
-
-@media(max-width: 340px){
-    .nav{
-        .container{
-            width: 100%;
-            padding: 1rem;
-            align-items: center;
-            .ul{
-                gap: 0;
-                justify-content: space-between;
-                align-items: center;
-               .link, .dropDownButton{
-                display: none;
-                
-               }
-               .linkSignUp{
-                padding: 11.5px 18px;
-                font-size: 8px;
-
-               }
-               .linkSystem{
-                padding: 10px 8px;
-                font-size: 8px;
-                gap: 0;
-                .icon{
-                    height: 12px;
-                }
-               }
-               .menuLinkHr{
-                display: none;
-               }
-            }
-            .toggleMenu{
-                margin-right: 3px;
-            }
-            .logoContainer{
-                width: 40px;
-                height: 32px;
-                margin-left: 0rem;
-                .logo{
-                    display: none;
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-                .logoIcon{
-                    display: block;
-                    object-fit: contain;
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
+  .mobile {
+    padding: 12px 18px 28px;
+  }
 }

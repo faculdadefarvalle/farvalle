@@ -1,110 +1,121 @@
-.container{
- 
-    display: flex;
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 3rem;
-    gap: 3rem;
-    .contactUsContainer{
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        gap: 1rem;
-        p{
-            text-align: justify;
-        }
-        .infoContainer{
-            margin-top: 1rem;
-            display: flex;
-    
-            flex-direction: column;
-            gap: 1rem;
-    
-            .infoItem{
-                display: flex;
-                align-items: center;
-                gap: .7rem;
-                font-weight: 500;
-            }
-        }
-    }
-    
-    .formContainer{
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        gap: 1.3rem;
-        .spaceFormDiv{
-            display: flex;
-            flex-direction: column;
-            gap: .6rem;
-            label{
-                font-weight: 600;
-            }
-            .nomeDiv{
-                display: flex;
-                gap: 1rem;
-                input{
-                    width: 100%;
-                    padding: 12px 16px;
-                    border: solid 1px #b8b7b7;
-                    border-radius: 4px;
-                }
-            }
-            .inputDiv{
-                display: flex;
-                flex-direction: column;
-                input{
-                    padding: 12px 16px;
-                    border: solid 1px #b8b7b7;
-                    border-radius: 4px;
-                }
-                textarea{
-                    padding: 12px 16px;
-                    border: solid 1px #b8b7b7;
-                    border-radius: 4px;
-                }
-            }
-        }
-        .submitButton{
-            width: 40%;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-weight: 500;
-            background: var(--farvalle-green);
-            transition: .2s;
-            cursor: pointer;
-            &:hover{
-                background: var(--farvalle-green-hover);
-            }
-        }
-        .submitButtonDisabled{
-            width: 40%;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 50px;
-            color: var(--farvalle-color-disabled);
-            font-weight: 500;
-            background: var(--farvalle-background-disabled);
-            transition: .2s;
-
-        }
-    }
+.section {
+  background: var(--white);
 }
 
-@media(max-width: 700px){
-    .container{
-        flex-direction: column;
-        .formContainer{
-            .submitButton{
-                width: 100%;
-            }
-            .submitButtonDisabled{
-                width: 100%;
-            }
-        }
-    }
+.grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.4fr);
+  gap: 40px;
+  align-items: start;
 }
 
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoCard {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 20px;
+
+  strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--farvalle-green);
+    margin-bottom: 2px;
+  }
+
+  a,
+  span {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  a:hover {
+    color: var(--farvalle-orange);
+  }
+}
+
+.whats {
+  background: var(--farvalle-green);
+  color: var(--white);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+
+  strong {
+    font-size: 1.05rem;
+  }
+
+  p {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.form {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  > p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: -8px;
+  }
+}
+
+.editor {
+  :global(.ql-editor) {
+    min-height: 160px;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.submit {
+  min-width: 180px;
+
+  &:disabled {
+    background: var(--farvalle-background-disabled);
+    color: var(--farvalle-color-disabled);
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .info {
+    min-width: 0;
+  }
+
+  .infoCard,
+  .whats {
+    min-width: 0;
+    overflow-wrap: anywhere; /* e-mail e endereço longos quebram em telas estreitas */
+  }
+
+  .form {
+    padding: 22px;
+  }
+}

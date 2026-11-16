@@ -1,0 +1,36 @@
+.collage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.04) saturate(1.04);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Variantes só ajustam proporção padrão quando usadas soltas */
+.card {
+  aspect-ratio: auto;
+}
+
+/* Em telas estreitas a foto ocupa a largura toda: sem recorte diagonal (os triângulos ficam) */
+@media (max-width: 900px) {
+  .hero .img,
+  .card .img,
+  .band .img {
+    clip-path: none !important;
+  }
+}

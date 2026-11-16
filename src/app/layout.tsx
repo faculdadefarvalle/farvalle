@@ -1,68 +1,48 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { caveat, montserrat } from "./fonts";
 import "./globals.scss";
-import {Poppins} from 'next/font/google'
-import {Montserrat} from 'next/font/google'
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-import { Maintenance } from "./components/Maintenance";
-import { FooterTwo } from "./components/FooterTwo";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
-const poppins = Poppins({
-  weight: ['300','400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-poppins'
-})
-
-const montserrat = Montserrat({
-  weight: ['300','400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-montserrat'
-})
+import { WhatsAppButton } from "./components/WhatsAppButton";
+import { CookieConsent } from "./components/CookieConsent";
 
 export const metadata: Metadata = {
-  title: "Farvalle",
-  description: "Website Faculdade Regional do Valle",
+  title: {
+    default: "Farvalle — Faculdade Regional do Valle",
+    template: "%s | Farvalle",
+  },
+  description:
+    "Faculdade Regional do Valle, em Amargosa/BA: cursos presenciais de Enfermagem, Fisioterapia e Pedagogia. Educação de hoje para um amanhã com mais oportunidades.",
+  metadataBase: new URL("https://www.farvalle.edu.br"),
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Farvalle",
+  },
 };
-
-
-
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const isProduction = process.env.NEXT_PUBLIC_VERSION === "production"
-    return isProduction ? (
+  const isProduction = process.env.NEXT_PUBLIC_VERSION === "production";
+
+  return (
     <html lang="pt-BR">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${montserrat.variable}`}>
-          <Header/>
-          {children}
-          {/* <Footer/> */}
-          <FooterTwo/>
+      <body className={`${montserrat.variable} ${caveat.variable}`}>
+        {isProduction ? (
+          <>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <WhatsAppButton />
+            <CookieConsent />
+          </>
+        ) : (
+          children
+        )}
       </body>
     </html>
-  ) : (
-    <html lang="pt-BR">
-    <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${montserrat.variable}`}>
-        {children}
-    </body>
-  </html>
-  )
+  );
 }

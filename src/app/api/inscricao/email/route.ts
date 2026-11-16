@@ -1,35 +1,39 @@
 import { sendResendMail } from "../../../services/resend";
+import { escapeHtml, sanitizeRichText, stripHtml } from "../../../services/mail-utils";
 import juice from "juice";
 import "react-quill-new/dist/quill.snow.css"
 
 // Destino oficial das inscrições (secretaria acadêmica). Pode ser sobrescrito por INSCRICAO_TO na Vercel.
 const INSCRICAO_TO_PADRAO = "secad@farvalle.edu.br";
 
-function stripHtml(html: string) {
-    return html
-        .replace(/<style[\s\S]*?<\/style>/gi, "")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/&nbsp;/g, " ")
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&quot;/g, '"')
-        .replace(/\s+/g, " ")
-        .trim();
+
+type DadosProva = {
+    tema?: unknown
+    inicio?: unknown
+    fim?: unknown
+    duracaoMin?: unknown
+    palavras?: unknown
+    colagens?: unknown
+    encerradaPorTempo?: unknown
 }
 
-// Campos digitados pelo candidato entram no HTML do e-mail como texto (evita HTML injetado).
-function escapeHtml(value: unknown) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+const numero = (valor: unknown) => (typeof valor === "number" && Number.isFinite(valor) ? valor : 0)
+
+function dataHora(ms: number) {
+    if (!ms) return "—"
+    return new Date(ms).toLocaleString("pt-BR", { timeZone: "America/Bahia", dateStyle: "short", timeStyle: "medium" })
+}
+
+function duracao(ms: number) {
+    const total = Math.max(0, Math.round(ms / 1000))
+    const min = Math.floor(total / 60)
+    const seg = total % 60
+    return `${min} min ${String(seg).padStart(2, "0")} s`
 }
 
 export async function POST(request: Request) {
 
-    const {nome: nomeRaw, email, tel: telRaw, text, course: courseRaw, city: cityRaw, ingresso: ingressoRaw, conheceu: conheceuRaw} = await request.json()
+    const {nome: nomeRaw, email, tel: telRaw, text, course: courseRaw, city: cityRaw, ingresso: ingressoRaw, conheceu: conheceuRaw, prova: provaRaw} = await request.json()
 
     const nome = escapeHtml(nomeRaw)
     const tel = escapeHtml(telRaw)
@@ -40,8 +44,30 @@ export async function POST(request: Request) {
     const conheceu = escapeHtml(conheceuRaw)
 
     const inscricaoTo = process.env.INSCRICAO_TO || INSCRICAO_TO_PADRAO
-    const redacao = typeof text === "string" && text.trim() ? text : "<p> </p>"
+    const redacao = typeof text === "string" && text.trim() ? sanitizeRichText(text) : "<p> </p>"
     const htmlInline = juice(redacao)
+
+    // Dados da prova do vestibular online (só quando o candidato fez a redação no site)
+    const prova: DadosProva | null = provaRaw && typeof provaRaw === "object" ? provaRaw : null
+    const inicio = numero(prova?.inicio)
+    const fim = numero(prova?.fim)
+    const linhasProva = prova
+        ? [
+              ["Tema sorteado", String(prova.tema ?? "")],
+              ["Início da prova", dataHora(inicio)],
+              ["Entrega", dataHora(fim)],
+              ["Tempo usado", `${duracao(fim - inicio)} de ${numero(prova.duracaoMin)} min${prova.encerradaPorTempo ? " (tempo esgotado)" : ""}`],
+              ["Palavras", String(numero(prova.palavras))],
+              ["Tentativas de colar texto (bloqueadas)", String(numero(prova.colagens))],
+          ]
+        : []
+    const blocoProva = linhasProva.length
+        ? `<div style="margin-top: 18px; padding: 14px 16px; background: #fcf8f4; border-radius: 8px; text-align: left;">
+            <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #e85824; font-weight: bold;">Vestibular online · aguardando avaliação</div>
+            ${linhasProva.map(([rotulo, valor]) => `<div style="font-size: 15px; margin-top: 8px;"><strong>${escapeHtml(rotulo)}:</strong> ${escapeHtml(valor)}</div>`).join("")}
+            <div style="font-size: 13px; margin-top: 12px; color: #8a3a1c;">Para aprovar ou reprovar, responda a este e-mail: a resposta vai direto para o candidato.</div>
+           </div>`
+        : ""
 
     const textoSimples = [
         "Nova Inscrição | FARVALLE",
@@ -52,6 +78,7 @@ export async function POST(request: Request) {
         `Como conheceu a FARVALLE: ${conheceuRaw ?? ""}`,
         `Forma de Ingresso: ${ingressoRaw ?? ""}`,
         `Curso desejado: ${courseRaw ?? ""}`,
+        ...linhasProva.map(([rotulo, valor]) => `${rotulo}: ${valor}`),
         "",
         "Redação:",
         stripHtml(redacao),
@@ -60,7 +87,7 @@ export async function POST(request: Request) {
     try {
         await sendResendMail({
            to: inscricaoTo,
-           subject: '🗣️ Nova Inscrição | FARVALLE 🗣️',
+           subject: prova ? `📝 Vestibular Online: redação de ${String(nomeRaw ?? "").replace(/\s+/g, " ").trim().slice(0, 80)} | FARVALLE` : '🗣️ Nova Inscrição | FARVALLE 🗣️',
            text: textoSimples,
            replyTo: email,
            html: `    <div style=" padding: 8px 10px;
@@ -107,6 +134,7 @@ export async function POST(request: Request) {
             <div style="font-size: 16px; margin-top: 16px;">
                 <strong>Curso desejado:</strong> ${course}
             </div>
+            ${blocoProva}
                </div>
 
            </div>
@@ -127,6 +155,7 @@ export async function POST(request: Request) {
            margin-top: 1rem;
            margin-bottom: 1rem;">
            <h2 style="text-align: center;"> Redação </h2>
+           ${prova ? `<p style="text-align: center; font-size: 15px;"><strong>Tema:</strong> ${escapeHtml(prova.tema)}</p>` : ""}
 
            ${htmlInline}
         </div>
