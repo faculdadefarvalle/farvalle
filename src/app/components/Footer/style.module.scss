@@ -4,7 +4,8 @@
   margin-top: auto;
 }
 
-.grid {
+/* ".footer .grid" (mais específico) para o respiro de cima não ser apagado pelo padding do .fv-container global */
+.footer .grid {
   display: grid;
   grid-template-columns: 1.4fr 0.8fr 0.8fr 1.2fr 1fr;
   gap: 40px;
@@ -182,7 +183,7 @@
 }
 
 @media (max-width: 1100px) {
-  .grid {
+  .footer .grid {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
@@ -205,7 +206,7 @@
 
 @media (max-width: 640px) {
   /* Celular: marca centralizada; Navegação e Cursos lado a lado; contato e botões abaixo */
-  .grid {
+  .footer .grid {
     grid-template-columns: 1fr 1fr;
     gap: 28px 20px;
     padding-top: 40px;
