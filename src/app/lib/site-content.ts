@@ -117,7 +117,7 @@ export const COURSES: Record<CourseKey, CourseMeta> = {
 export const COURSE_LIST = Object.values(COURSES);
 
 /** Edição vigente do processo seletivo (único lugar a atualizar a cada semestre). */
-export const VESTIBULAR_EDITION = "Vestibular 2026.2";
+export const VESTIBULAR_EDITION = "Vestibular 2027.1";
 
 export const HERO = {
   eyebrow: VESTIBULAR_EDITION,
