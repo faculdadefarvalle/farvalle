@@ -33,7 +33,7 @@ function duracao(ms: number) {
 
 export async function POST(request: Request) {
 
-    const {nome: nomeRaw, email, tel: telRaw, text, course: courseRaw, city: cityRaw, ingresso: ingressoRaw, conheceu: conheceuRaw, prova: provaRaw} = await request.json()
+    const {nome: nomeRaw, email, tel: telRaw, text, course: courseRaw, city: cityRaw, ingresso: ingressoRaw, conheceu: conheceuRaw, prova: provaRaw, gravadaNoBanco} = await request.json()
 
     const nome = escapeHtml(nomeRaw)
     const tel = escapeHtml(telRaw)
@@ -69,6 +69,12 @@ export async function POST(request: Request) {
            </div>`
         : ""
 
+    // Aviso quando a cópia no banco de dados falhou (a inscrição vale pelo e-mail)
+    const semBanco = gravadaNoBanco === false
+    const avisoBanco = semBanco
+        ? `<div style="margin-top: 18px; padding: 10px 14px; background: #fff4e5; border-radius: 8px; font-size: 13px; color: #8a5a00; text-align: left;">Esta inscrição não foi gravada no banco de dados do site (falha técnica). Guarde este e-mail: ele é o registro da inscrição.</div>`
+        : ""
+
     const textoSimples = [
         "Nova Inscrição | FARVALLE",
         `Nome: ${nomeRaw ?? ""}`,
@@ -79,6 +85,7 @@ export async function POST(request: Request) {
         `Forma de Ingresso: ${ingressoRaw ?? ""}`,
         `Curso desejado: ${courseRaw ?? ""}`,
         ...linhasProva.map(([rotulo, valor]) => `${rotulo}: ${valor}`),
+        ...(semBanco ? ["", "Atenção: esta inscrição não foi gravada no banco de dados do site. Guarde este e-mail."] : []),
         "",
         "Redação:",
         stripHtml(redacao),
@@ -135,6 +142,7 @@ export async function POST(request: Request) {
                 <strong>Curso desejado:</strong> ${course}
             </div>
             ${blocoProva}
+            ${avisoBanco}
                </div>
 
            </div>
