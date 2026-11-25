@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { LuChevronRight, LuHouse, LuMessageCircle } from "react-icons/lu";
 import { Decor } from "./components/Decor";
@@ -12,6 +13,11 @@ const QUICK_LINKS = [
   { href: "/publicacoes-institucionais", label: "Publicações" },
   { href: "/contato", label: "Contato" },
 ];
+
+export const metadata: Metadata = {
+  title: "Página não encontrada",
+  robots: { index: false },
+};
 
 /** Página 404 no layout do site: código grande, explicação, atalhos e contato. */
 export default function NotFound() {

@@ -56,6 +56,14 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  /* Regra Nexus: sem barra de rolagem visível (a rolagem continua funcionando). */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* Regra: o site deve rodar bem em monitores grandes (2K, 4K e acima) — a interface cresce
