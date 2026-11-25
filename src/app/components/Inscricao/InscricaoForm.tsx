@@ -318,18 +318,26 @@ export function InscricaoForm() {
             }
           : null;
 
-      await axios.post("/api/inscricao", {
-        nome: data.nome,
-        city: data.city,
-        conheceu: data.conheceu,
-        course: data.course,
-        email: data.email,
-        ingresso: data.ingresso,
-        tel: data.tel,
-        ...(dadosProva ? { redacao, prova: dadosProva } : {}),
-      });
+      // O e-mail para a secretaria é o canal oficial. Gravar no banco é uma cópia:
+      // se o banco estiver fora do ar, a inscrição segue mesmo assim (e o e-mail avisa).
+      let gravadaNoBanco = true;
+      try {
+        await axios.post("/api/inscricao", {
+          nome: data.nome,
+          city: data.city,
+          conheceu: data.conheceu,
+          course: data.course,
+          email: data.email,
+          ingresso: data.ingresso,
+          tel: data.tel,
+          ...(dadosProva ? { redacao, prova: dadosProva } : {}),
+        });
+      } catch {
+        gravadaNoBanco = false;
+      }
 
       await axios.post("/api/inscricao/email", {
+        gravadaNoBanco,
         nome: data.nome,
         city: data.city,
         conheceu: data.conheceu,
