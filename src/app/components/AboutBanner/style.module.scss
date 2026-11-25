@@ -1,0 +1,95 @@
+.banner {
+  position: relative;
+  background: var(--farvalle-green-band) url("/images/redesign/sobre-banner.jpg") center / cover no-repeat;
+  background-image: image-set(url("/images/redesign/sobre-banner.jpg") 1x, url("/images/redesign/sobre-banner@2x.jpg") 2x);
+  aspect-ratio: 905 / 168;
+  display: flex;
+  align-items: center;
+  color: var(--white);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 26% 1fr 21%;
+  align-items: center;
+  width: 100%;
+  min-height: 230px; /* no .banner, min-height + aspect-ratio viraria largura mínima e estouraria a tela */
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  grid-column: 1;
+
+  h2 {
+    font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+    line-height: 1.15;
+    color: var(--white);
+  }
+
+  p {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.86);
+    max-width: 30ch;
+  }
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.right {
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  color: var(--text);
+
+  h3 {
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    line-height: 1.12;
+    color: var(--farvalle-green);
+
+    em {
+      font-style: normal;
+      color: var(--farvalle-orange);
+    }
+  }
+
+  p {
+    font-size: 0.74rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+}
+
+@media (max-width: 900px) {
+  .banner {
+    background-image: none;
+    aspect-ratio: auto;
+    padding: 28px 0;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .right {
+    grid-column: 1;
+    color: var(--white);
+
+    h3 {
+      color: var(--white);
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.86);
+    }
+  }
+}

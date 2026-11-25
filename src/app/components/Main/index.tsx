@@ -1,58 +1,33 @@
-import Image, { StaticImageData } from "next/image";
-import { PrismicRichText } from "@prismicio/react";
-import { Carousel } from "./Carousel";
-import styles from "./style.module.scss";
-import predioFarvalle from "../../../../public/predio.webp";
-import { CourseBox } from "../CourseBox";
-import { BlogMain } from "../BlogMain";
 import { getHomeContent } from "../../lib/prismic-content";
+import { Hero } from "../Home/Hero";
+import { Mission } from "../Home/Mission";
+import { Courses } from "../Home/Courses";
+import { Why } from "../Home/Why";
+import { Numbers } from "../Home/Numbers";
+import { News } from "../Home/News";
+import { Publications } from "../Home/Publications";
+import { Cta } from "../Home/Cta";
 
 export async function Main() {
   const content = await getHomeContent();
-  const buildingImage: string | StaticImageData =
-    content.buildingImage?.url || predioFarvalle;
 
   return (
     <>
-      <Carousel image={content.banner} />
-      <div className={styles.container}>
-        <div className={styles.textContainer}>
-          {content.introSections.map((section) => (
-            <div className={styles.paragraphContainer} key={section.title}>
-              <h3>{section.title}</h3>
-              <PrismicRichText
-                field={section.content}
-                components={{
-                  paragraph: ({ children }) => <p>{children}</p>,
-                }}
-              />
-            </div>
-          ))}
-          <Image
-            className={styles.imgPredio}
-            src={buildingImage}
-            alt={content.buildingImage?.alt || "Prédio da Farvalle"}
-            width={content.buildingImage?.width || 1080}
-            height={content.buildingImage?.height || 1920}
-          />
-        </div>
-        <div className={styles.coursesContainer}>
-          <div className={styles.courseBoxContainer}>
-            {content.courses.map((course) => (
-              <CourseBox
-                key={course.id}
-                course={course.title}
-                image_url={course.imageUrl}
-                image_alt={course.imageAlt}
-                modality={course.modality}
-                total_semestre={course.semesters}
-                url={course.url}
-              />
-            ))}
-          </div>
-        </div>
-        <BlogMain title={content.latestPostsTitle} />
-      </div>
+      {/*
+        Decisão do redesign: o banner do Prismic (`content.banner`) era a imagem larga do antigo carrossel,
+        com texto embutido, e não cabe na moldura 790x500 do novo hero. A foto do hero vem do layout
+        aprovado; para voltar a controlá-la pelo CMS basta passar `image={content.banner}` aqui.
+        Os `intro_sections` do Prismic também deixaram de ser usados: o texto institucional da home
+        agora vem de `lib/site-content.ts` (WHY) e a página /a-farvalle continua lendo o post "sobre".
+      */}
+      <Hero />
+      <Mission />
+      <Courses courses={content.courses} />
+      <Why image={content.buildingImage} />
+      <Numbers />
+      <News title={content.latestPostsTitle} />
+      <Publications />
+      <Cta />
     </>
   );
 }

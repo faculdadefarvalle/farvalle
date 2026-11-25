@@ -9,6 +9,7 @@ export type ResendMail = {
   subject: string;
   html: string;
   text?: string;
+  cc?: string | string[];
   replyTo?: string;
   from?: string;
 };
@@ -39,6 +40,9 @@ export async function sendResendMail(mail: ResendMail): Promise<ResendResult> {
     body: JSON.stringify({
       from: mail.from ?? getResendFrom(),
       to: Array.isArray(mail.to) ? mail.to : [mail.to],
+      ...(mail.cc && (Array.isArray(mail.cc) ? mail.cc.length : true)
+        ? { cc: Array.isArray(mail.cc) ? mail.cc : [mail.cc] }
+        : {}),
       subject: mail.subject,
       html: mail.html,
       text: mail.text,

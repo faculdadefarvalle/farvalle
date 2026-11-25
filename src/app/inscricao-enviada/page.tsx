@@ -1,37 +1,41 @@
-'use client'
-import { BsSendCheck } from 'react-icons/bs'
-import { MdWhatsapp } from 'react-icons/md'
-import styles from './style.module.scss'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import type { Metadata } from "next";
+import Link from "next/link";
+import { LuChevronRight, LuCircleCheck, LuMessageCircle } from "react-icons/lu";
+import { Decor } from "../components/Decor";
+import { VESTIBULAR_EDITION, WHATSAPP_DISPLAY, WHATSAPP_URL } from "../lib/site-content";
+import styles from "./style.module.scss";
 
-export default function Matriz(){
-    const route = useRouter()
-    console.log('AQUIIIII!!!', route)
-    function backRoute(){
-        return route.back()
-    }
+export const metadata: Metadata = {
+  title: "Inscrição enviada",
+  robots: { index: false },
+};
 
-return (
-    <div className={styles.matrizContainer}>
-        <div className={styles.matrizGrid}>
-            <div className={styles.a}>
-                <BsSendCheck size={132} color='#3f4c41'/>
-            </div>
-            <div className={styles.b}>
-                <p>Sua inscrição foi enviada! 
-
-                </p>
-            </div>
-            <div className={styles.c}>
-                <p>Em breve, você receberá por e-mail o resultado da avaliação de sua redação, onde você poderá verificar se está aprovado(a) para prosseguir com o seu processo de matrícula.</p>
-            </div>
-            <div className={styles.d}>
-            <Link href="#" onClick={() => backRoute()} className={styles.linkBack}>
-                    <span>VOLTAR</span>
-                </Link>
-            </div>
+export default function InscricaoEnviadaPage() {
+  return (
+    <section className={styles.section}>
+      <Decor variant="soft" />
+      <div className={`fv-container ${styles.inner}`}>
+        <div className={`fv-card ${styles.card}`}>
+          <span className={styles.icon}>
+            <LuCircleCheck size={44} aria-hidden="true" />
+          </span>
+          <span className="fv-eyebrow">{VESTIBULAR_EDITION}</span>
+          <h1>Sua inscrição foi enviada!</h1>
+          <p>
+            Recebemos seus dados. Em breve, você receberá por e-mail o resultado da análise da sua inscrição (e da
+            redação, no caso do vestibular online), em que poderá verificar se está apto(a) a prosseguir com a matrícula.
+          </p>
+          <p className={styles.small}>Fique de olho também na caixa de spam e no seu WhatsApp.</p>
+          <div className={styles.actions}>
+            <Link href="/" className="fv-btn fv-btn--primary">
+              Voltar ao início <LuChevronRight size={16} aria-hidden="true" />
+            </Link>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="fv-btn fv-btn--outline">
+              <LuMessageCircle size={16} aria-hidden="true" /> Falar no WhatsApp {WHATSAPP_DISPLAY}
+            </a>
+          </div>
         </div>
-    </div>
-)
+      </div>
+    </section>
+  );
 }

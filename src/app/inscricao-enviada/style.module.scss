@@ -1,110 +1,67 @@
-.matrizContainer { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-   
-    height: 100vh;
-
-    z-index: 2;
-    background-color: var(--white);
-    padding: 2rem;
-    .matrizGrid {
-        .a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            grid-area: a;
-        }
-        .b {
-            display: flex;
-            align-items: center;
-
-            grid-area: b;
-            p {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                font-size: 3rem;
-                font-weight: 600;
-
-            }
-        }
-        .c {
-            grid-area: c;
-            display: flex;
-            align-items: center;
-            
-            p {
-                font-size: 1.3rem;
-                text-align: justify;
-            }
-        }
-        .d {
-            grid-area: d;
-            
-            .linkBack{
-                background-color: var(--farvalle-orange);
-                padding: 1rem;
-                text-align: center;
-                border-radius: 8px;
-                text-decoration: none;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: #fff;
-                font-weight: 600;
-            }
-        }
-        max-width: 800px;
-        height: 80vh;
-        display: grid;
-        grid-template-areas: 
-        'a a a a'
-        'b b b b'
-        'c c c c'
-        'd d d d';
-        
-    }
+.section {
+  position: relative;
+  overflow: hidden;
+  background: var(--farvalle-cream);
+  padding: 72px 0;
+  min-height: calc(100vh - var(--header-height) - 320px);
+  display: flex;
+  align-items: center;
 }
 
-@media(max-width: 830px){
-    .b{
-        p {
-            font-size: 2rem !important;
-        }
-    }
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 
-@media(max-width: 500px){
-    .matrizGrid{
-        align-content: space-evenly;
-        grid-template-areas: 
-        'a a a a'
-        'b b b b'
-        'c c c c'
-        'd d d d' !important;
-    }
-    .b{
-        p {
-            font-size: 1.2rem !important;
-            margin: 0;
-        }
-    }
-    .c {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        p {
-            font-size: 1rem !important;
-            margin: 0;
-        }
-    }
-    .d {
-        align-items: center;
-        justify-content: center;
-        p {
-            text-align: center;
-        }
-    }
+.card {
+  max-width: 640px;
+  width: 100%;
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+
+  h1 {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+  }
+
+  p {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    max-width: 48ch;
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--farvalle-green-soft);
+  color: var(--farvalle-green);
+  margin-bottom: 6px;
+}
+
+.small {
+  font-size: 0.86rem !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 32px 22px;
+  }
 }

@@ -1,0 +1,115 @@
+.history {
+  background: var(--white);
+}
+
+.historyInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.historyCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rich {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+
+  h3 {
+    font-size: 1.15rem;
+    margin-top: 10px;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+}
+
+.campus {
+  overflow: hidden;
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+
+  img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    object-position: 50% 0%; /* placa do Valle Shopping sempre inteira */
+  }
+
+  > div {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  strong {
+    color: var(--farvalle-green);
+    font-size: 1.05rem;
+  }
+
+  p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+}
+
+.values {
+  background: var(--farvalle-sand);
+}
+
+.valuesGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+
+  li {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  strong {
+    color: var(--farvalle-green);
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+}
+
+@media (max-width: 1000px) {
+  .historyInner {
+    grid-template-columns: 1fr;
+  }
+
+  .campus {
+    position: static;
+  }
+
+  .valuesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
+}
